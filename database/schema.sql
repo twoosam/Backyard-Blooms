@@ -6,6 +6,11 @@ drop schema "public" cascade;
 
 create schema "public";
 
+CREATE TABLE "carousel" (
+  "imageId" serial PRIMARY KEY,
+  "imageUrl" text
+);
+
 CREATE TABLE "user" (
   "userId" serial PRIMARY KEY,
   "username" text,

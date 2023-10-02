@@ -26,8 +26,69 @@ app.use(express.static(reactStaticDir));
 app.use(express.static(uploadsStaticDir));
 app.use(express.json());
 
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello, World!' });
+// GET request for the 3 categories: Plumeria, Assorted, Seeds
+app.get('/api/category', async (req, res, next) => {
+  try {
+    const sql = `
+    select "categoryId",
+    "name",
+    "imageUrl"
+    from "category"
+    `;
+    const result = await db.query(sql);
+    res.json(result.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// GET request for the list of products based on what category was selected
+app.get('/api/:categoryId/product', async (req, res, next) => {
+  try {
+    const categoryId = Number(req.params.categoryId);
+    if (!categoryId) {
+      throw new ClientError(400, 'categoryId must be a positive integer');
+    }
+    const sql = `
+    select "productId",
+    "name",
+    "price",
+    "imageUrl",
+    "categoryId"
+    from "product"
+    where "categoryId" = $1
+    `;
+    const params = [categoryId];
+    const result = await db.query(sql, params);
+    res.json(result.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// GET request for the product that was selected
+app.get('/api/:categoryId/product/:productId', async (req, res, next) => {
+  try {
+    const productId = Number(req.params.productId);
+    if (!productId) {
+      throw new ClientError(400, 'productId must be a positive integer');
+    }
+    const sql = `
+    select "productId",
+    "name",
+    "details",
+    "price",
+    "imageUrl",
+    "categoryId"
+    from "product"
+    where "productId" = $1
+    `;
+    const params = [productId];
+    const result = await db.query(sql, params);
+    res.json(result.rows[0]);
+  } catch (error) {
+    next(error);
+  }
 });
 
 /**
