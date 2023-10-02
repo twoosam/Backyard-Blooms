@@ -69,6 +69,10 @@ app.get('/api/:categoryId/product', async (req, res, next) => {
 // GET request for the product that was selected
 app.get('/api/:categoryId/product/:productId', async (req, res, next) => {
   try {
+    const categoryId = Number(req.params.categoryId);
+    if (!categoryId) {
+      throw new ClientError(400, 'categoryId must be a positive integer');
+    }
     const productId = Number(req.params.productId);
     if (!productId) {
       throw new ClientError(400, 'productId must be a positive integer');
@@ -81,11 +85,16 @@ app.get('/api/:categoryId/product/:productId', async (req, res, next) => {
     "imageUrl",
     "categoryId"
     from "product"
-    where "productId" = $1
+    where "categoryId" = $1 and "productId" = $2 
     `;
-    const params = [productId];
+    const params = [categoryId, productId];
     const result = await db.query(sql, params);
-    res.json(result.rows[0]);
+    const prodDetails = result.rows[0];
+    if (!prodDetails) {
+      res.status(404).json(`Either the categoryId or productId does not exist`);
+      return;
+    }
+    res.json(prodDetails);
   } catch (error) {
     next(error);
   }
