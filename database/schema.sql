@@ -8,6 +8,7 @@ create schema "public";
 
 CREATE TABLE "carousel" (
   "imageId" serial PRIMARY KEY,
+  "name" text,
   "imageUrl" text
 );
 

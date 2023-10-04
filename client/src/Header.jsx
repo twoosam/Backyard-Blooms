@@ -5,7 +5,7 @@ export default function Header() {
     <div>
       <nav>
         <div>
-          <h1>Backyard Blooms</h1>
+          <h1 className="text-4xl">Backyard Blooms</h1>
           <ul>
             <li>
               <Link to="/" className="title">
@@ -13,8 +13,8 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link to="/" className="title">
-                Categories
+              <Link to="/catalog" className="title">
+                Catalog
               </Link>
             </li>
             <li>
