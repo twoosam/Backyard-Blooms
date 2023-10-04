@@ -24,6 +24,21 @@ app.use(express.static(reactStaticDir));
 app.use(express.static(uploadsStaticDir));
 app.use(express.json());
 
+// GET request for image carousel
+app.get('/api/carousel', async (req, res, next) => {
+  try {
+    const sql = `
+    select "imageId",
+    "imageUrl"
+    from "carousel"
+    `;
+    const result = await db.query(sql);
+    res.json(result.rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // GET request for the 3 categories: Plumeria, Assorted, Seeds
 app.get('/api/category', async (req, res, next) => {
   try {
