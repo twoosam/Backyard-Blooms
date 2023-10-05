@@ -32,12 +32,12 @@ export default function Catalog() {
       </div>
     );
   return (
-    <div className="container">
+    <div className="">
       <h1 className="text-2xl">Catalog</h1>
       <hr />
-      <div className="row">
+      <div className="">
         {categories?.map((category) => (
-          <div key={category.categoryId} className="col-12 col-md-6 col-lg-4">
+          <div key={category.categoryId} className="">
             <CategoryCard category={category} />
           </div>
         ))}
@@ -51,8 +51,8 @@ function CategoryCard({ category }) {
   return (
     <Link to={`/catalog/${categoryId}`}>
       <img src={imageUrl} className="object-scale-down h-20 w-20" alt={name} />
-      <div className="card-body">
-        <h5 className="card-title">{name}</h5>
+      <div className="">
+        <h5 className="">{name}</h5>
       </div>
     </Link>
   );

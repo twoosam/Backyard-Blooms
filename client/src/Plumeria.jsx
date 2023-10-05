@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-export default function Plumeria() {
-  const [plumerias, setPlumerias] = useState();
+export default function Products() {
+  const { categoryId } = useParams();
+  const [products, setProducts] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
 
   useEffect(() => {
-    async function loadPlumeria() {
+    async function loadProducts() {
       try {
-        const response = await fetch('/api/:categoryId/product');
+        const response = await fetch(`/api/${categoryId}/product`);
         if (!response.ok) throw new Error(`fetch Error ${response.status}`);
         const result = await response.json();
-        setPlumerias(result);
+        setProducts(result);
       } catch (err) {
         setError(err);
       } finally {
@@ -20,25 +21,25 @@ export default function Plumeria() {
       }
     }
     setIsLoading(true);
-    loadPlumeria();
-  }, []);
+    loadProducts();
+  }, [categoryId]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error)
     return (
       <div>
-        Error Loading Plumeria :{' '}
+        Error Loading Products :{' '}
         {error instanceof Error ? error.message : 'Unknown Error'}
       </div>
     );
   return (
     <div className="container">
-      <h1 className="text-2xl">Plumeria</h1>
+      <h1 className="text-2xl">Products</h1>
       <hr />
       <div className="row">
-        {plumerias?.map((product) => (
-          <div key={product.productId} className="col-12 col-md-6 col-lg-4">
-            <PlumeriaCard product={product} />
+        {products?.map((product) => (
+          <div key={product.productId} className="">
+            <ProductListCard product={product} />
           </div>
         ))}
       </div>
@@ -46,13 +47,14 @@ export default function Plumeria() {
   );
 }
 
-function PlumeriaCard({ product }) {
-  const { productId, name, imageUrl } = product;
+function ProductListCard({ product }) {
+  const { categoryId, productId, name, imageUrl, price } = product;
   return (
-    <Link to={`details/${productId}`}>
+    <Link to={`/catalog/${categoryId}/${productId}`}>
       <img src={imageUrl} className="object-scale-down h-20 w-20" alt={name} />
-      <div className="card-body">
-        <h5 className="card-title">{name}</h5>
+      <div className="">
+        <h5 className="">{name}</h5>
+        <h5>${price}</h5>
       </div>
     </Link>
   );
