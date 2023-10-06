@@ -24,4 +24,16 @@ values ('Golden sunset', 'Huge blooms', '20', '/images/yellow.jpg', '1'),
 insert into "carousel" ("name", "imageUrl")
 values ('Gnome', '/images/gnome.jpg'),
 ('Pinky', '/images/pinky.jpg'),
-('whiteOrange', '/images/whiteOrange.jpg');
+('whiteYellow', '/images/whiteYellow.jpg');
+
+-- Dummy values for user and cart
+
+insert into "user" ("username", "hashedPassword")
+values ('anakin', 'skywalker'),
+('obiwan', 'kenobi');
+
+insert into "cart" ("userId", "productId")
+values ('1', '2'),
+('2', '4');
+
+

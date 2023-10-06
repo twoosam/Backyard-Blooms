@@ -25,7 +25,7 @@ app.use(express.static(uploadsStaticDir));
 app.use(express.json());
 
 // POST for account sign up
-
+// POST for account sign in
 // GET request for image carousel
 app.get('/api/carousel', async (req, res, next) => {
   try {
@@ -110,6 +110,49 @@ app.get('/api/:categoryId/product/:productId', async (req, res, next) => {
       return;
     }
     res.json(prodDetails);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST for items that were added to cart
+app.post('/api/cart', async (req, res, next) => {
+  try {
+    const { userId, productId } = req.body;
+    if (!Number.isInteger(productId) || productId <= 0) {
+      throw new ClientError(400, 'ProductId must be a positive integer');
+    }
+    const sql = `
+    insert into "cart" ("userId", "productId")
+    values ($1, $2)
+    returning *
+    `;
+    const params = [userId, productId];
+    const result = await db.query(sql, params);
+    const itemInCart = result.rows[0];
+    res.json(itemInCart);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// GET request to display items that were added
+app.get('/api/cart/:userId', async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId);
+    if (!Number.isInteger(userId) || userId <= 0) {
+      throw new ClientError(400, 'ProductId must be a positive integer');
+    }
+    const sql = `
+    select "product"."imageUrl", "product"."name", "product"."price"
+    from "product"
+    join "cart" using ("productId")
+    where "userId" = $1
+    `;
+    const params = [userId];
+    const result = await db.query(sql, params);
+    const itemInCart = result.rows;
+    res.json(itemInCart);
   } catch (error) {
     next(error);
   }

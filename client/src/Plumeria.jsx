@@ -33,12 +33,12 @@ export default function Products() {
       </div>
     );
   return (
-    <div className="container">
+    <div className="">
       <h1 className="text-2xl">Products</h1>
       <hr />
       <div className="row">
         {products?.map((product) => (
-          <div key={product.productId} className="">
+          <div key={product.productId} className="flex justify-center">
             <ProductListCard product={product} />
           </div>
         ))}

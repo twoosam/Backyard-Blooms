@@ -37,7 +37,7 @@ export default function Catalog() {
       <hr />
       <div className="">
         {categories?.map((category) => (
-          <div key={category.categoryId} className="">
+          <div key={category.categoryId} className="flex justify-center">
             <CategoryCard category={category} />
           </div>
         ))}
