@@ -39,14 +39,15 @@ export default function Carousel() {
       </div>
     );
   return (
-    <div>
-      <h1 className="text-2xl">Welcome</h1>
+    <div className=" text-black bg-white w-screen font-serif">
+      {/* <h1 className="text-2xl">Welcome</h1> */}
       {images.map((image, index) => (
         <img
           key={index}
           src={image.imageUrl}
           alt={`Image ${index}`}
           style={{ display: index === currentIndex ? 'block' : 'none' }}
+          className=""
         />
       ))}
     </div>

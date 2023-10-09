@@ -6,6 +6,7 @@ export default function ProductsDetails() {
   const [product, setProduct] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
+  // const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
     async function loadProductDetails() {
@@ -32,10 +33,30 @@ export default function ProductsDetails() {
         {error instanceof Error ? error.message : 'Unknown Error'}
       </div>
     );
+
+  async function addToCart(item) {
+    try {
+      const req = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item),
+      };
+      const response = await fetch('/api/cart', req);
+      if (!response.ok) {
+        throw new Error(`fetch Error ${response.status}`);
+      }
+      const itemInCart = await response.json();
+      console.log('Item added to cart', itemInCart);
+    } catch (err) {
+      setError(err);
+    }
+  }
+
   const { name, imageUrl, price, details } = product;
+  const cartIdentifier = { userId: 1, productId: Number(productId) };
   return (
     <div>
-      <div className="container">
+      <div className="">
         <h1 className="text-2xl">{name}</h1>
         <hr />
       </div>
@@ -43,8 +64,8 @@ export default function ProductsDetails() {
       <div className="">
         <h5>${price}</h5>
         <h5>{details}</h5>
-        <Link to="/cart">
-          <button>Add to cart</button>
+        <Link to={`/cart/user/${cartIdentifier.userId}`}>
+          <button onClick={() => addToCart(cartIdentifier)}>Add to cart</button>
         </Link>
       </div>
     </div>
