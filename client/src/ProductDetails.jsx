@@ -6,6 +6,7 @@ export default function ProductsDetails() {
   const [product, setProduct] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
+  // const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
     async function loadProductDetails() {
