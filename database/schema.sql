@@ -35,9 +35,10 @@ CREATE TABLE "product" (
 );
 
 CREATE TABLE "cart" (
+  "cartId" serial PRIMARY KEY,
   "userId" integer,
   "productId" integer,
-  PRIMARY KEY ("userId", "productId")
+  "quantity" integer
 );
 
 ALTER TABLE "product" ADD FOREIGN KEY ("categoryId") REFERENCES "category" ("categoryId");
