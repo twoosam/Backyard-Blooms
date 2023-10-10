@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 export default function Cart() {
-  const [item, setItem] = useState();
+  const [items, setItems] = useState();
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { userId } = useParams();
@@ -13,8 +13,8 @@ export default function Cart() {
       try {
         const response = await fetch(`/api/cart/${userId}`);
         if (!response.ok) throw new Error(`fetch Error ${response.status}`);
-        const itemInCart = await response.json();
-        setItem(itemInCart);
+        const itemsInCart = await response.json();
+        setItems(itemsInCart);
       } catch (err) {
         setError(err);
       } finally {
@@ -49,10 +49,23 @@ export default function Cart() {
       }
       const editedCart = await response.json();
       if (editedCart) console.log(editedCart);
-      const updatedCart = item.map((i) =>
+      const updatedCart = items.map((i) =>
         i.cartId === cartId ? { ...i, quantity } : i
       );
-      setItem(updatedCart);
+      setItems(updatedCart);
+    } catch (err) {
+      setError(err);
+    }
+  }
+
+  async function removeCartItem(cartId) {
+    try {
+      const req = {
+        method: 'DELETE',
+      };
+      await fetch(`/api/cart/${cartId}`, req);
+      const keptItems = items.filter((i) => i.cartId !== cartId);
+      setItems(keptItems);
     } catch (err) {
       setError(err);
     }
@@ -66,7 +79,7 @@ export default function Cart() {
       </div>
       <div className="flex justify-center">
         <div className="basis-1/2">
-          {item?.map((product, index) => (
+          {items?.map((product, index) => (
             <div
               key={index}
               className="flex flex-wrap content-center items-center ml-20 pt-8">
@@ -89,6 +102,9 @@ export default function Cart() {
                     <option value="5">5</option>
                   </select>
                 </label>
+                <button onClick={() => removeCartItem(product.cartId)}>
+                  Remove
+                </button>
               </div>
             </div>
           ))}

@@ -184,6 +184,30 @@ app.put('/api/cart/:cartId', async (req, res, next) => {
   }
 });
 
+// DELETE for removing items from cart
+app.delete('/api/cart/:cartId', async (req, res, next) => {
+  try {
+    const cartId = Number(req.params.cartId);
+    if (!Number.isInteger(cartId) || cartId <= 0) {
+      throw new ClientError(400, 'CartId must be a positive integer');
+    }
+    const sql = `
+    delete from "cart"
+    where "cartId" = $1
+    returning *
+    `;
+    const params = [cartId];
+    const result = await db.query(sql, params);
+    const removed = result.rows[0];
+    if (!removed) {
+      throw new ClientError(404, `Item with cartId ${cartId} not found`);
+    }
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+});
+
 /**
  * Serves React's index.html if no api route matches.
  *
