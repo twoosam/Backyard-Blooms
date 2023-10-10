@@ -118,16 +118,16 @@ app.get('/api/:categoryId/product/:productId', async (req, res, next) => {
 // POST for items that were added to cart
 app.post('/api/cart', async (req, res, next) => {
   try {
-    const { userId, productId } = req.body;
+    const { userId, productId, quantity } = req.body;
     if (!Number.isInteger(productId) || productId <= 0) {
       throw new ClientError(400, 'ProductId must be a positive integer');
     }
     const sql = `
-    insert into "cart" ("userId", "productId")
-    values ($1, $2)
+    insert into "cart" ("userId", "productId", "quantity")
+    values ($1, $2, $3)
     returning *
     `;
-    const params = [userId, productId];
+    const params = [userId, productId, quantity];
     const result = await db.query(sql, params);
     const itemInCart = result.rows[0];
     res.json(itemInCart);
@@ -144,7 +144,7 @@ app.get('/api/cart/:userId', async (req, res, next) => {
       throw new ClientError(400, 'ProductId must be a positive integer');
     }
     const sql = `
-    select "product"."imageUrl", "product"."name", "product"."price"
+    select "product"."imageUrl", "product"."name", "product"."price", "cart"."quantity", "cart"."cartId"
     from "product"
     join "cart" using ("productId")
     where "userId" = $1
@@ -153,6 +153,56 @@ app.get('/api/cart/:userId', async (req, res, next) => {
     const result = await db.query(sql, params);
     const itemInCart = result.rows;
     res.json(itemInCart);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// PUT for editing the cart quantity
+app.put('/api/cart/:cartId', async (req, res, next) => {
+  try {
+    const cartId = Number(req.params.cartId);
+    if (!Number.isInteger(cartId) || cartId <= 0) {
+      throw new ClientError(400, 'CartId must be a positive integer');
+    }
+    const { quantity, userId } = req.body;
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+      throw new ClientError(400, 'Quantity must be a positive integer');
+    }
+    const sql = `
+    update "cart"
+    set "quantity" = $1
+    where "userId" = $2 and "cartId" = $3
+    returning *
+    `;
+    const params = [quantity, userId, cartId];
+    const result = await db.query(sql, params);
+    const itemInCart = result.rows[0];
+    res.json(itemInCart);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// DELETE for removing items from cart
+app.delete('/api/cart/:cartId', async (req, res, next) => {
+  try {
+    const cartId = Number(req.params.cartId);
+    if (!Number.isInteger(cartId) || cartId <= 0) {
+      throw new ClientError(400, 'CartId must be a positive integer');
+    }
+    const sql = `
+    delete from "cart"
+    where "cartId" = $1
+    returning *
+    `;
+    const params = [cartId];
+    const result = await db.query(sql, params);
+    const removed = result.rows[0];
+    if (!removed) {
+      throw new ClientError(404, `Item with cartId ${cartId} not found`);
+    }
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }

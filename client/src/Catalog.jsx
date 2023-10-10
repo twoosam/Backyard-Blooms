@@ -35,9 +35,9 @@ export default function Catalog() {
     <div className="">
       <h1 className="text-2xl">Catalog</h1>
       <hr />
-      <div className="">
+      <div className="flex justify-center flex-wrap">
         {categories?.map((category) => (
-          <div key={category.categoryId} className="flex justify-center">
+          <div key={category.categoryId} className="basis-1/3 content-center">
             <CategoryCard category={category} />
           </div>
         ))}
@@ -50,10 +50,10 @@ function CategoryCard({ category }) {
   const { categoryId, name, imageUrl } = category;
   return (
     <Link to={`/catalog/${categoryId}`}>
-      <img src={imageUrl} className="object-scale-down h-20 w-20" alt={name} />
-      <div className="">
-        <h5 className="">{name}</h5>
+      <div className="flex justify-center flex-wrap">
+        <img src={imageUrl} className=" h-80 w-80" alt={name} />
       </div>
+      <h5 className="">{name}</h5>
     </Link>
   );
 }

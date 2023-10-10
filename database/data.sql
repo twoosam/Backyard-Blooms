@@ -11,20 +11,24 @@
 --      ('Get a job', false);
 
 insert into "category" ("name", "imageUrl")
-values ('Plumeria', '/images/yellow.jpg'),
+values ('Plumeria', '/images/baliWhirl.jpg'),
 ('Assorted', '/images/pokey.jpg'),
 ('Seeds', '/images/seeds.jpg');
 
 insert into "product" ("name", "details", "price", "imageUrl", "categoryId")
-values ('Golden sunset', 'Huge blooms', '20', '/images/yellow.jpg', '1'),
-('Pink', 'Fast blooms', '25', '/images/pinky.jpg', '1'),
+values ('Bali Whirl', 'Huge blooms', '20', '/images/baliWhirl.jpg', '1'),
+('Jester', 'Fast blooms', '25', '/images/jester.jpg', '1'),
+('Mystique', 'Blooms', '35', '/images/mystique.jpg', '1'),
+('Treasure Isle', 'Blooms', '35', '/images/treasureIsle.jpg', '1'),
+('Star White','blooms', '40', '/images/starWhite.jpg', '1'),
+('Candy Stripe','blooms', '45', '/images/candyStripe.jpg', '1'),
 ('Pokey', 'Low maintenece succulent', '15', '/images/pokey.jpg', '2'),
-('Golden sunset', '1 seed pod', '10', '/images/seeds.jpg', '3');
+('Bali Whirl', '1 seed pod', '10', '/images/seeds.jpg', '3');
 
 insert into "carousel" ("name", "imageUrl")
 values ('Gnome', '/images/gnome.jpg'),
-('Pinky', '/images/pinky.jpg'),
-('whiteYellow', '/images/whiteYellow.jpg');
+('Jester', '/images/jester.jpg'),
+('Star White', '/images/starWhite.jpg');
 
 -- Dummy values for user and cart
 
@@ -32,8 +36,8 @@ insert into "user" ("username", "hashedPassword")
 values ('anakin', 'skywalker'),
 ('obiwan', 'kenobi');
 
-insert into "cart" ("userId", "productId")
-values ('1', '2'),
-('2', '4');
+insert into "cart" ("userId", "productId", "quantity")
+values ('1', '2', '1'),
+('2', '4', '1');
 
 
