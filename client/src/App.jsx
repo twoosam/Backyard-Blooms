@@ -17,7 +17,7 @@ export default function App() {
         <Route index element={<Carousel />} />
         <Route path="signIn" element={<SignIn />} />
         <Route path="signUp" element={<SignUp />} />
-        <Route path="cart/user/:userId" element={<Cart />} />
+        <Route path="cart" element={<Cart />} />
         <Route path="catalog" element={<Catalog />} />
         <Route path="/catalog/:categoryId" element={<Products />} />
         <Route

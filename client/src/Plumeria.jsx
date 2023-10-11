@@ -33,7 +33,7 @@ export default function Products() {
       </div>
     );
   return (
-    <div className="">
+    <div>
       <h1 className="text-2xl">Products</h1>
       <hr />
       <div className="flex justify-center flex-wrap">

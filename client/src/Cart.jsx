@@ -10,8 +10,18 @@ export default function Cart() {
   useEffect(() => {
     async function fetchCartItem() {
       setError(undefined);
+      if (!sessionStorage.getItem('token')) {
+        alert('You must be signed in to view your cart');
+        return;
+      }
       try {
-        const response = await fetch(`/api/cart/${userId}`);
+        const req = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          },
+        };
+        const response = await fetch(`/api/cart/view`, req);
         if (!response.ok) throw new Error(`fetch Error ${response.status}`);
         const itemsInCart = await response.json();
         setItems(itemsInCart);
@@ -23,7 +33,7 @@ export default function Cart() {
     }
     setIsLoading(true);
     fetchCartItem();
-  }, [userId]);
+  }, []);
 
   if (isLoading) return <div>Loading...</div>;
   if (error)
@@ -40,6 +50,7 @@ export default function Cart() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
         body: JSON.stringify({ quantity, userId }),
       };
@@ -62,6 +73,7 @@ export default function Cart() {
     try {
       const req = {
         method: 'DELETE',
+        headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
       };
       await fetch(`/api/cart/${cartId}`, req);
       const keptItems = items.filter((i) => i.cartId !== cartId);

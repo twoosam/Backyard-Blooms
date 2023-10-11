@@ -1,7 +1,9 @@
 import 'dotenv/config';
 import express from 'express';
 import pg from 'pg';
-import { ClientError, errorMiddleware } from './lib/index.js';
+import { ClientError, errorMiddleware, authMiddleware } from './lib/index.js';
+import argon2 from 'argon2';
+import jwt from 'jsonwebtoken';
 
 const connectionString =
   process.env.DATABASE_URL ||
@@ -116,9 +118,12 @@ app.get('/api/:categoryId/product/:productId', async (req, res, next) => {
 });
 
 // POST for items that were added to cart
-app.post('/api/cart', async (req, res, next) => {
+app.post('/api/cart/add', authMiddleware, async (req, res, next) => {
   try {
-    const { userId, productId, quantity } = req.body;
+    if (!req.user) {
+      throw new ClientError(401, 'not logged in');
+    }
+    const { productId, quantity } = req.body;
     if (!Number.isInteger(productId) || productId <= 0) {
       throw new ClientError(400, 'ProductId must be a positive integer');
     }
@@ -127,7 +132,7 @@ app.post('/api/cart', async (req, res, next) => {
     values ($1, $2, $3)
     returning *
     `;
-    const params = [userId, productId, quantity];
+    const params = [req.user.userId, productId, quantity];
     const result = await db.query(sql, params);
     const itemInCart = result.rows[0];
     res.json(itemInCart);
@@ -137,11 +142,10 @@ app.post('/api/cart', async (req, res, next) => {
 });
 
 // GET request to display items that were added
-app.get('/api/cart/:userId', async (req, res, next) => {
+app.get('/api/cart/view', authMiddleware, async (req, res, next) => {
   try {
-    const userId = Number(req.params.userId);
-    if (!Number.isInteger(userId) || userId <= 0) {
-      throw new ClientError(400, 'ProductId must be a positive integer');
+    if (!req.user) {
+      throw new ClientError(401, 'not logged in');
     }
     const sql = `
     select "product"."imageUrl", "product"."name", "product"."price", "cart"."quantity", "cart"."cartId"
@@ -149,7 +153,7 @@ app.get('/api/cart/:userId', async (req, res, next) => {
     join "cart" using ("productId")
     where "userId" = $1
     `;
-    const params = [userId];
+    const params = [req.user.userId];
     const result = await db.query(sql, params);
     const itemInCart = result.rows;
     res.json(itemInCart);
@@ -159,13 +163,16 @@ app.get('/api/cart/:userId', async (req, res, next) => {
 });
 
 // PUT for editing the cart quantity
-app.put('/api/cart/:cartId', async (req, res, next) => {
+app.put('/api/cart/:cartId', authMiddleware, async (req, res, next) => {
   try {
+    if (!req.user) {
+      throw new ClientError(401, 'not logged in');
+    }
     const cartId = Number(req.params.cartId);
     if (!Number.isInteger(cartId) || cartId <= 0) {
       throw new ClientError(400, 'CartId must be a positive integer');
     }
-    const { quantity, userId } = req.body;
+    const { quantity } = req.body;
     if (!Number.isInteger(quantity) || quantity <= 0) {
       throw new ClientError(400, 'Quantity must be a positive integer');
     }
@@ -175,7 +182,7 @@ app.put('/api/cart/:cartId', async (req, res, next) => {
     where "userId" = $2 and "cartId" = $3
     returning *
     `;
-    const params = [quantity, userId, cartId];
+    const params = [quantity, req.user.userId, cartId];
     const result = await db.query(sql, params);
     const itemInCart = result.rows[0];
     res.json(itemInCart);
@@ -185,24 +192,80 @@ app.put('/api/cart/:cartId', async (req, res, next) => {
 });
 
 // DELETE for removing items from cart
-app.delete('/api/cart/:cartId', async (req, res, next) => {
+app.delete('/api/cart/:cartId', authMiddleware, async (req, res, next) => {
   try {
+    if (!req.user) {
+      throw new ClientError(401, 'not logged in');
+    }
     const cartId = Number(req.params.cartId);
     if (!Number.isInteger(cartId) || cartId <= 0) {
       throw new ClientError(400, 'CartId must be a positive integer');
     }
     const sql = `
     delete from "cart"
-    where "cartId" = $1
+    where "cartId" = $1 and "userId" = $2
     returning *
     `;
-    const params = [cartId];
+    const params = [cartId, req.user.userId];
     const result = await db.query(sql, params);
     const removed = result.rows[0];
     if (!removed) {
       throw new ClientError(404, `Item with cartId ${cartId} not found`);
     }
     res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST for user to create account
+app.post('/api/user/sign-up', async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      throw new ClientError(400, 'username and password are required fields');
+    }
+    const hashedPassword = await argon2.hash(password);
+    const sql = `
+    insert into "user" ("username", "hashedPassword")
+    values ($1, $2)
+    returning "userId", "username"
+    `;
+    const params = [username, hashedPassword];
+    const result = await db.query(sql, params);
+    const user = result.rows[0];
+    res.status(201).json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST for user to sign into their account
+app.post('/api/user/sign-in', async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      throw new ClientError(401, 'invalid login');
+    }
+    const sql = `
+      select "userId",
+            "hashedPassword"
+        from "user"
+      where "username" = $1
+    `;
+    const params = [username];
+    const result = await db.query(sql, params);
+    const user = result.rows[0];
+    if (!user) {
+      throw new ClientError(401, 'invalid login');
+    }
+    const { userId, hashedPassword } = user;
+    if (!(await argon2.verify(hashedPassword, password))) {
+      throw new ClientError(401, 'invalid login');
+    }
+    const payload = { userId, username };
+    const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+    res.json({ token, user: payload });
   } catch (error) {
     next(error);
   }

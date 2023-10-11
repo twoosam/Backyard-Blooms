@@ -35,13 +35,20 @@ export default function ProductsDetails() {
     );
 
   async function addToCart(item) {
+    if (!sessionStorage.getItem('token')) {
+      alert('You must be signed in to add to cart');
+      return;
+    }
     try {
       const req = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        },
         body: JSON.stringify(item),
       };
-      const response = await fetch('/api/cart', req);
+      const response = await fetch('/api/cart/add', req);
       if (!response.ok) {
         throw new Error(`fetch Error ${response.status}`);
       }
@@ -53,7 +60,11 @@ export default function ProductsDetails() {
   }
 
   const { name, imageUrl, price, details } = product;
-  const cartIdentifier = { userId: 1, productId: Number(productId), quantity };
+  const cartIdentifier = {
+    userId: Number(sessionStorage.getItem('userId')),
+    productId: Number(productId),
+    quantity,
+  };
   return (
     <div>
       <div className="">
@@ -76,13 +87,12 @@ export default function ProductsDetails() {
             <option value="5">5</option>
           </select>
         </label>
-        <Link to={`/cart/user/${cartIdentifier.userId}`}>
-          <button
-            onClick={() => addToCart(cartIdentifier)}
-            className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-0.5">
-            Add to cart
-          </button>
-        </Link>
+        <button
+          onClick={() => addToCart(cartIdentifier)}
+          className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-0.5">
+          Add to cart
+        </button>
+        <Link to={`/cart`}>View cart</Link>
       </div>
     </div>
   );

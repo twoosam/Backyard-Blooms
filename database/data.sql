@@ -30,14 +30,5 @@ values ('Gnome', '/images/gnome.jpg'),
 ('Jester', '/images/jester.jpg'),
 ('Star White', '/images/starWhite.jpg');
 
--- Dummy values for user and cart
-
-insert into "user" ("username", "hashedPassword")
-values ('anakin', 'skywalker'),
-('obiwan', 'kenobi');
-
-insert into "cart" ("userId", "productId", "quantity")
-values ('1', '2', '1'),
-('2', '4', '1');
 
 
