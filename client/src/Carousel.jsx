@@ -39,14 +39,20 @@ export default function Carousel() {
       </div>
     );
   return (
-    <div>
+    <div className="relative">
+      <div>
+        <h1 className="text-2xl text-black font-serif">Welcome</h1>
+        <hr />
+      </div>
       {images.map((image, index) => (
         <img
           key={index}
           src={image.imageUrl}
           alt={`Image ${index}`}
-          style={{ display: index === currentIndex ? 'block' : 'none' }}
-          className=""
+          style={{ height: '680px' }}
+          className={`transition-opacity duration-1000 absolute w-screen ${
+            index === currentIndex ? 'opacity-100' : 'opacity-0'
+          }`}
         />
       ))}
     </div>

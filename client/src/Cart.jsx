@@ -140,13 +140,15 @@ export default function Cart() {
         <div className="basis-2/5 justify-items-center pt-8 border border-neutral-300 rounded-lg shadow">
           <h1 className="text-2xl">Order Summary</h1>
           <hr className="border-solid border-black w-52 m-auto" />
-          <div>{`${totalItems} items`}</div>
-          <div>{`Sales Tax: $${salesTax.toFixed(2)}`}</div>
-          <h1 className="pt-5 font-bold">{`Total: $${total.toFixed(2)}`}</h1>
-          <div className="pt-10">
-            <button className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-4">
-              Checkout
-            </button>
+          <div className="text-lg">
+            <div>{`${totalItems} items: $${subtotal}`}</div>
+            <div>{`Sales Tax: $${salesTax.toFixed(2)}`}</div>
+            <h1 className="pt-5 font-bold">{`Total: $${total.toFixed(2)}`}</h1>
+            <div className="pt-5">
+              <button className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-4">
+                Checkout
+              </button>
+            </div>
           </div>
         </div>
       </div>
