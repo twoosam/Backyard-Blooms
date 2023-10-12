@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -20,6 +21,7 @@ export default function SignUp() {
         throw new Error(`fetch Error ${response.status}`);
       }
       const user = await response.json();
+      navigate('/');
       console.log('Registered', user);
     } catch (err) {
       alert(`Error registering user: ${err}`);
@@ -70,7 +72,11 @@ export default function SignUp() {
                 Sign Up
               </button>
             </div>
-            <Link to="/signIn">Already have an account?</Link>
+            <div className="pt-5">
+              <Link to="/signIn" className="text-blue-600">
+                Already have an account?
+              </Link>
+            </div>
           </div>
         </form>
       </div>

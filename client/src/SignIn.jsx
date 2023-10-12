@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -20,7 +21,8 @@ export default function SignIn() {
         throw new Error(`fetch Error ${response.status}`);
       }
       const { user, token } = await response.json();
-      sessionStorage.setItem('token', token);
+      localStorage.setItem('token', token);
+      navigate('/');
       console.log('Signed In', user, '; received token:', token);
     } catch (err) {
       alert(`Error signing in: ${err}`);
@@ -71,7 +73,11 @@ export default function SignIn() {
                   Sign In
                 </button>
               </div>
-              <Link to="/signUp">Don't have an account?</Link>
+              <div className="pt-5">
+                <Link to="/signUp" className="text-blue-600">
+                  Don't have an account?
+                </Link>
+              </div>
             </div>
           </form>
         </div>
