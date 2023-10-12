@@ -10,8 +10,18 @@ export default function Cart() {
   useEffect(() => {
     async function fetchCartItem() {
       setError(undefined);
+      if (!sessionStorage.getItem('token')) {
+        alert('You must be signed in to view your cart');
+        return;
+      }
       try {
-        const response = await fetch(`/api/cart/${userId}`);
+        const req = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          },
+        };
+        const response = await fetch(`/api/cart/view`, req);
         if (!response.ok) throw new Error(`fetch Error ${response.status}`);
         const itemsInCart = await response.json();
         setItems(itemsInCart);
@@ -23,7 +33,7 @@ export default function Cart() {
     }
     setIsLoading(true);
     fetchCartItem();
-  }, [userId]);
+  }, []);
 
   if (isLoading) return <div>Loading...</div>;
   if (error)
@@ -40,6 +50,7 @@ export default function Cart() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
         body: JSON.stringify({ quantity, userId }),
       };
@@ -62,6 +73,7 @@ export default function Cart() {
     try {
       const req = {
         method: 'DELETE',
+        headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
       };
       await fetch(`/api/cart/${cartId}`, req);
       const keptItems = items.filter((i) => i.cartId !== cartId);
@@ -72,7 +84,7 @@ export default function Cart() {
   }
 
   return (
-    <div>
+    <div className="text-black">
       <div>
         <h1 className="text-2xl">Cart</h1>
         <hr />
@@ -86,7 +98,7 @@ export default function Cart() {
               <img src={product.imageUrl} className="h-40 w-40" />
               <div className=" flex justify-center pl-8 gap-x-8">
                 <h5>{product.name}</h5>
-                <h5>${product.price}</h5>
+                <h5>${product.price * product.quantity}</h5>
                 <label>
                   Quantity:
                   <select
