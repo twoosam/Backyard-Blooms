@@ -84,7 +84,7 @@ export default function Cart() {
   }
 
   return (
-    <div>
+    <div className="text-black">
       <div>
         <h1 className="text-2xl">Cart</h1>
         <hr />
@@ -98,7 +98,7 @@ export default function Cart() {
               <img src={product.imageUrl} className="h-40 w-40" />
               <div className=" flex justify-center pl-8 gap-x-8">
                 <h5>{product.name}</h5>
-                <h5>${product.price}</h5>
+                <h5>${product.price * product.quantity}</h5>
                 <label>
                   Quantity:
                   <select

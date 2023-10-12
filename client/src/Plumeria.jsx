@@ -33,10 +33,10 @@ export default function Products() {
       </div>
     );
   return (
-    <div>
+    <div className="font-serif text-black">
       <h1 className="text-2xl">Products</h1>
       <hr />
-      <div className="flex justify-center flex-wrap">
+      <div className="flex justify-center flex-wrap bg-gray-200">
         {products?.map((product) => (
           <div key={product.productId} className="basis-1/3 content-center">
             <ProductListCard product={product} />
@@ -50,12 +50,18 @@ export default function Products() {
 function ProductListCard({ product }) {
   const { categoryId, productId, name, imageUrl, price } = product;
   return (
-    <Link to={`/catalog/${categoryId}/${productId}`}>
-      <div className="flex justify-center flex-wrap ">
-        <img src={imageUrl} className=" h-80 w-80" alt={name} />
-      </div>
-      <h5>{name}</h5>
-      <h5>${price}</h5>
-    </Link>
+    <div className=" border border-neutral-300 rounded-lg shadow ">
+      <Link to={`/catalog/${categoryId}/${productId}`}>
+        <div className="flex justify-center flex-wrap pt-8">
+          <img
+            src={imageUrl}
+            className="h-80 w-80 object-cover object-center"
+            alt={name}
+          />
+        </div>
+        <h5>{name}</h5>
+        <h5>${price}</h5>
+      </Link>
+    </div>
   );
 }

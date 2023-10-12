@@ -28,10 +28,10 @@ export default function SignUp() {
     }
   }
   return (
-    <div>
+    <div className="text-black">
       <div>
         <div>
-          <h1 className="text-2xl">Sign Up</h1>
+          <h1 className="text-2xl font-serif">Sign Up</h1>
           <hr />
         </div>
       </div>

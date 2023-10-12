@@ -39,8 +39,7 @@ export default function Carousel() {
       </div>
     );
   return (
-    <div className=" text-black bg-white w-screen font-serif">
-      {/* <h1 className="text-2xl">Welcome</h1> */}
+    <div>
       {images.map((image, index) => (
         <img
           key={index}

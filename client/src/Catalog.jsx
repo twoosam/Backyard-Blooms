@@ -32,10 +32,10 @@ export default function Catalog() {
       </div>
     );
   return (
-    <div className="">
+    <div className="font-serif text-black">
       <h1 className="text-2xl">Catalog</h1>
       <hr />
-      <div className="flex justify-center flex-wrap">
+      <div className="flex justify-center flex-wrap bg-gray-200">
         {categories?.map((category) => (
           <div key={category.categoryId} className="basis-1/3 content-center">
             <CategoryCard category={category} />
@@ -49,11 +49,17 @@ export default function Catalog() {
 function CategoryCard({ category }) {
   const { categoryId, name, imageUrl } = category;
   return (
-    <Link to={`/catalog/${categoryId}`}>
-      <div className="flex justify-center flex-wrap">
-        <img src={imageUrl} className=" h-80 w-80" alt={name} />
-      </div>
-      <h5 className="">{name}</h5>
-    </Link>
+    <div className=" border border-neutral-300 rounded-lg shadow ">
+      <Link to={`/catalog/${categoryId}`}>
+        <div className="flex justify-center flex-wrap pt-8">
+          <img
+            src={imageUrl}
+            className="h-80 w-80 object-cover object-center"
+            alt={name}
+          />
+        </div>
+        <h5 className="text-xl mt-4">{name}</h5>
+      </Link>
+    </div>
   );
 }
