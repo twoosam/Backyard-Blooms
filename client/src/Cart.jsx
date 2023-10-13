@@ -109,7 +109,7 @@ export default function Cart() {
                 src={product.imageUrl}
                 className="h-40 w-40 object-cover object-center"
               />
-              <div className=" flex justify-center pl-8 gap-x-8">
+              <div className=" flex justify-center pl-8 gap-x-8 text-xl">
                 <h5>{product.name}</h5>
                 <h5>${product.price * product.quantity}</h5>
                 <label>
@@ -141,7 +141,7 @@ export default function Cart() {
           <h1 className="text-2xl">Order Summary</h1>
           <hr className="border-solid border-black w-52 m-auto" />
           <div className="text-lg">
-            <div>{`${totalItems} items: $${subtotal}`}</div>
+            <div>{`${totalItems} item(s): $${subtotal.toFixed(2)}`}</div>
             <div>{`Sales Tax: $${salesTax.toFixed(2)}`}</div>
             <h1 className="pt-5 font-bold">{`Total: $${total.toFixed(2)}`}</h1>
             <div className="pt-5">
