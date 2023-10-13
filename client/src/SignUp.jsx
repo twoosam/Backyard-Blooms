@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -20,6 +21,7 @@ export default function SignUp() {
         throw new Error(`fetch Error ${response.status}`);
       }
       const user = await response.json();
+      navigate('/signIn');
       console.log('Registered', user);
     } catch (err) {
       alert(`Error registering user: ${err}`);
@@ -47,7 +49,7 @@ export default function SignUp() {
                 required
                 name="username"
                 type="text"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white"
               />
             </div>
           </div>
@@ -58,7 +60,7 @@ export default function SignUp() {
                 required
                 name="password"
                 type="password"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white"
               />
             </div>
           </div>
@@ -70,7 +72,11 @@ export default function SignUp() {
                 Sign Up
               </button>
             </div>
-            <Link to="/signIn">Already have an account?</Link>
+            <div className="pt-5">
+              <Link to="/signIn" className="text-blue-600">
+                Already have an account?
+              </Link>
+            </div>
           </div>
         </form>
       </div>

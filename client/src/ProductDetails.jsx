@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export default function ProductsDetails() {
   const { categoryId, productId } = useParams();
@@ -7,6 +7,7 @@ export default function ProductsDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
   const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadProductDetails() {
@@ -35,8 +36,9 @@ export default function ProductsDetails() {
     );
 
   async function addToCart(item) {
-    if (!sessionStorage.getItem('token')) {
+    if (!localStorage.getItem('token')) {
       alert('You must be signed in to add to cart');
+      navigate('/signIn');
       return;
     }
     try {
@@ -44,7 +46,7 @@ export default function ProductsDetails() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(item),
       };
@@ -61,7 +63,7 @@ export default function ProductsDetails() {
 
   const { name, imageUrl, price, details } = product;
   const cartIdentifier = {
-    userId: Number(sessionStorage.getItem('userId')),
+    userId: Number(localStorage.getItem('userId')),
     productId: Number(productId),
     quantity,
   };
@@ -78,29 +80,38 @@ export default function ProductsDetails() {
           />
         </div>
         <div className="basis-3/5 justify-items-center pt-20 border border-neutral-300 rounded-lg shadow ">
-          <h1 className="text-2xl">Product Details</h1>
+          <h1 className="text-3xl">Product Details</h1>
           <hr className="border-solid border-black w-96 m-auto" />
-          <h5 className="pt-5 text-lg">{details}</h5>
-          <h5 className="pt-5 text-xl font-bold ">${price}</h5>
-          <div className="flex justify-center text-lg">
-            <label>
-              Quantity:
-              <select
-                onChange={(e) => setQuantity(Number(e.target.value))}
-                value={quantity}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-            </label>
-            <button
-              onClick={() => addToCart(cartIdentifier)}
-              className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-0.5">
-              Add to cart
-            </button>
-            <Link to={`/cart`}>View cart</Link>
+          <div className="text-left pl-14">
+            <h5 className="pt-5 text-xl">{details}</h5>
+            <div className="text-xl pt-5 gap-x-5">
+              <h5 className="text-2xl font-bold ">${price}</h5>
+              <label>
+                Quantity:
+                <select
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  value={quantity}
+                  className="bg-gray-200 border border-neutral-400">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </label>
+            </div>
+            <div className=" text-xl pt-5">
+              <button
+                onClick={() => addToCart(cartIdentifier)}
+                className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-0.5">
+                Add to cart
+              </button>
+              <div className="pt-5">
+                <Link to={`/cart`} className="text-blue-600">
+                  View cart
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

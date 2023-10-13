@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -20,7 +21,8 @@ export default function SignIn() {
         throw new Error(`fetch Error ${response.status}`);
       }
       const { user, token } = await response.json();
-      sessionStorage.setItem('token', token);
+      localStorage.setItem('token', token);
+      navigate('/');
       console.log('Signed In', user, '; received token:', token);
     } catch (err) {
       alert(`Error signing in: ${err}`);
@@ -48,7 +50,7 @@ export default function SignIn() {
                   required
                   name="username"
                   type="text"
-                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white"
                 />
               </div>
             </div>
@@ -59,7 +61,7 @@ export default function SignIn() {
                   required
                   name="password"
                   type="password"
-                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white"
                 />
               </div>
             </div>
@@ -71,7 +73,11 @@ export default function SignIn() {
                   Sign In
                 </button>
               </div>
-              <Link to="/signUp">Don't have an account?</Link>
+              <div className="pt-5">
+                <Link to="/signUp" className="text-blue-600">
+                  Don't have an account?
+                </Link>
+              </div>
             </div>
           </form>
         </div>
