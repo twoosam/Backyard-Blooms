@@ -26,8 +26,6 @@ app.use(express.static(reactStaticDir));
 app.use(express.static(uploadsStaticDir));
 app.use(express.json());
 
-// POST for account sign up
-// POST for account sign in
 // GET request for image carousel
 app.get('/api/carousel', async (req, res, next) => {
   try {

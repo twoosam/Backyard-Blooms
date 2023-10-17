@@ -100,7 +100,7 @@ export default function Cart() {
         <hr />
       </div>
       <div className="flex flex-col lg:flex-row justify-center bg-gray-200">
-        <div className="lg:basis-3/5 flex flex-col border border-neutral-300 rounded-lg shadow lg:pb-56">
+        <div className="lg:basis-3/5 flex flex-col border border-neutral-300 rounded-lg shadow">
           <table>
             <thead>
               <tr>
