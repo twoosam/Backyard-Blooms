@@ -35,9 +35,11 @@ export default function Catalog() {
     <div className="font-serif text-black">
       <h1 className="text-2xl">Catalog</h1>
       <hr />
-      <div className="flex justify-center flex-wrap bg-gray-200 pb-72">
+      <div className="flex justify-center flex-wrap bg-gray-200 lg:pb-72">
         {categories?.map((category) => (
-          <div key={category.categoryId} className="basis-1/3 content-center">
+          <div
+            key={category.categoryId}
+            className="lg:basis-1/3 content-center">
             <CategoryCard category={category} />
           </div>
         ))}
