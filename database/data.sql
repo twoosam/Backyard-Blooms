@@ -38,6 +38,3 @@ values ('Gnome', '/images/gnome.jpg'),
 ('Candy Stripe', '/images/candyStripe.jpg'),
 ('Jester', '/images/jester.jpg');
 
-insert into "user" ("username", "hashedPassword")
-values ('twoosam', 'password1');
-

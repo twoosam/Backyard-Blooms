@@ -99,52 +99,64 @@ export default function Cart() {
         <h1 className="text-2xl">Cart</h1>
         <hr />
       </div>
-      <div className="flex justify-center bg-gray-200">
-        <div className="basis-3/5 flex flex-col border border-neutral-300 rounded-lg shadow pb-56">
-          {items?.map((product, index) => (
-            <div
-              key={index}
-              className="flex flex-wrap content-center items-center ml-20 py-8">
-              <img
-                src={product.imageUrl}
-                className="h-40 w-40 object-cover object-center"
-              />
-              <div className=" flex justify-center pl-8 gap-x-8 text-xl">
-                <h5>{product.name}</h5>
-                <h5>${product.price * product.quantity}</h5>
-                <label>
-                  Quantity:
-                  <select
-                    name="selectedQuantity"
-                    value={product.quantity}
-                    onChange={(e) =>
-                      editCartItem(product.cartId, Number(e.target.value))
-                    }
-                    className="bg-gray-200 border border-neutral-400">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                </label>
-                <button
-                  onClick={() => removeCartItem(product.cartId)}
-                  className="text-red-500">
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
+      <div className="flex flex-col lg:flex-row justify-center bg-gray-200">
+        <div className="lg:basis-3/5 flex flex-col border border-neutral-300 rounded-lg shadow">
+          <table>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items?.map((product, index) => (
+                <tr key={index}>
+                  <td className="flex justify-center">
+                    <img
+                      src={product.imageUrl}
+                      className="h-20 lg:h-40 w-20 lg:w-40 object-cover object-center"
+                    />
+                  </td>
+                  <td>{product.name}</td>
+                  <td>${product.price * product.quantity}</td>
+                  <td>
+                    <select
+                      name="selectedQuantity"
+                      value={product.quantity}
+                      onChange={(e) =>
+                        editCartItem(product.cartId, Number(e.target.value))
+                      }
+                      className="bg-gray-200 border border-neutral-400">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => removeCartItem(product.cartId)}
+                      className="text-red-500">
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <div className="basis-2/5 justify-items-center pt-8 border border-neutral-300 rounded-lg shadow">
+        <div className="lg:basis-2/5 justify-items-center pt-8 border border-neutral-300 rounded-lg shadow">
           <h1 className="text-2xl">Order Summary</h1>
           <hr className="border-solid border-black w-52 m-auto" />
           <div className="text-lg">
             <div>{`${totalItems} item(s): $${subtotal.toFixed(2)}`}</div>
             <div>{`Sales Tax: $${salesTax.toFixed(2)}`}</div>
             <h1 className="pt-5 font-bold">{`Total: $${total.toFixed(2)}`}</h1>
-            <div className="pt-5">
+            <div className="pt-5 pb-5">
               <button className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-4">
                 Checkout
               </button>

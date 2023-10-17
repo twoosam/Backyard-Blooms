@@ -38,7 +38,7 @@ export default function Products() {
       <hr />
       <div className="flex justify-center flex-wrap bg-gray-200">
         {products?.map((product) => (
-          <div key={product.productId} className="basis-1/3 content-center">
+          <div key={product.productId} className="lg:basis-1/3 content-center">
             <ProductListCard product={product} />
           </div>
         ))}

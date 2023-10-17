@@ -71,18 +71,18 @@ export default function ProductsDetails() {
     <div className="font-serif text-black">
       <h1 className="text-2xl">{name}</h1>
       <hr />
-      <div className=" flex justify-center bg-gray-200">
-        <div className="basis-2/5 flex pl-24 pt-20 pb-52 border border-neutral-300 rounded-lg shadow ">
+      <div className=" flex flex-col lg:flex-row justify-center bg-gray-200">
+        <div className="lg:basis-2/5 flex justify-center pt-8 lg:pt-20 pb-8 lg:pb-52 border border-neutral-300 rounded-lg shadow ">
           <img
             src={imageUrl}
-            className=" h-96 w-96 object-cover object-center"
+            className=" h-80 lg:h-96 w-80 lg:w-96 object-cover object-center"
             alt={name}
           />
         </div>
-        <div className="basis-3/5 justify-items-center pt-20 border border-neutral-300 rounded-lg shadow ">
+        <div className="lg:basis-3/5 justify-items-center pt-8 lg:pt-20 border border-neutral-300 rounded-lg shadow ">
           <h1 className="text-3xl">Product Details</h1>
-          <hr className="border-solid border-black w-96 m-auto" />
-          <div className="text-left pl-14">
+          <hr className="border-solid border-black lg:w-96 m-auto" />
+          <div className="text-left px-8 lg:pl-14">
             <h5 className="pt-5 text-xl">{details}</h5>
             <div className="text-xl pt-5 gap-x-5">
               <h5 className="text-2xl font-bold ">${price}</h5>
@@ -100,13 +100,13 @@ export default function ProductsDetails() {
                 </select>
               </label>
             </div>
-            <div className=" text-xl pt-5">
+            <div className="flex flex-row flex-nowrap justify-between lg:justify-normal content-center items-center text-xl pt-5 pb-5">
               <button
                 onClick={() => addToCart(cartIdentifier)}
                 className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-0.5">
                 Add to cart
               </button>
-              <div className="pt-5">
+              <div className="lg:pl-8">
                 <Link to={`/cart`} className="text-blue-600">
                   View cart
                 </Link>
