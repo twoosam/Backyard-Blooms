@@ -40,8 +40,10 @@ export default function SignUp() {
       <h2 className="mt-10 text-center text-2xl font-bold ">
         Sign up to create your account
       </h2>
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="mt-10">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 flex flex-col justify-center items-center">
           <div>
             <label className="block text-sm font-medium">Username</label>
             <div className="mt-2">
@@ -49,7 +51,7 @@ export default function SignUp() {
                 required
                 name="username"
                 type="text"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white"
+                className="block w-80 lg:w-96 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 bg-white"
               />
             </div>
           </div>
@@ -60,7 +62,7 @@ export default function SignUp() {
                 required
                 name="password"
                 type="password"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white"
+                className="block w-80 lg:w-96 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 bg-white"
               />
             </div>
           </div>

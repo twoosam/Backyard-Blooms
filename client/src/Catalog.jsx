@@ -35,7 +35,7 @@ export default function Catalog() {
     <div className="font-serif text-black">
       <h1 className="text-2xl">Catalog</h1>
       <hr />
-      <div className="flex justify-center flex-wrap bg-gray-200 lg:pb-72">
+      <div className="flex justify-center flex-wrap bg-gray-200">
         {categories?.map((category) => (
           <div
             key={category.categoryId}

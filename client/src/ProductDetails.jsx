@@ -72,7 +72,7 @@ export default function ProductsDetails() {
       <h1 className="text-2xl">{name}</h1>
       <hr />
       <div className=" flex flex-col lg:flex-row justify-center bg-gray-200">
-        <div className="lg:basis-2/5 flex justify-center pt-8 lg:pt-20 pb-8 lg:pb-52 border border-neutral-300 rounded-lg shadow ">
+        <div className="lg:basis-2/5 flex justify-center pt-8 lg:pt-20 pb-8 lg:pb-20 border border-neutral-300 rounded-lg shadow ">
           <img
             src={imageUrl}
             className=" h-80 lg:h-96 w-80 lg:w-96 object-cover object-center"
