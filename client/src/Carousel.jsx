@@ -6,12 +6,6 @@ export default function Carousel() {
   const [error, setError] = useState();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const desktopHeight = 713;
-  const mobileHeight = 570;
-  const windowWidth = window.innerWidth;
-
-  const imageHeight = windowWidth >= 768 ? desktopHeight : mobileHeight;
-
   useEffect(() => {
     async function fetchImages() {
       try {
@@ -51,8 +45,7 @@ export default function Carousel() {
           key={index}
           src={image.imageUrl}
           alt={`Image ${index}`}
-          style={{ height: `${imageHeight}px` }}
-          className={`transition-opacity duration-1000 absolute w-screen ${
+          className={`transition-opacity duration-1000 absolute w-screen h-screen ${
             index === currentIndex ? 'opacity-100' : 'opacity-0'
           }`}
         />
