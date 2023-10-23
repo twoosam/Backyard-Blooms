@@ -31,6 +31,28 @@ export default function SignIn() {
     }
   }
 
+  async function guestLogin() {
+    try {
+      const req = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: 'guest', password: 'blooms' }),
+      };
+      const response = await fetch('/api/user/sign-in', req);
+      if (!response.ok) {
+        throw new Error(`fetch Error ${response.status}`);
+      }
+      const { user, token } = await response.json();
+      localStorage.setItem('token', token);
+      navigate('/');
+      console.log('Signed In', user, '; received token:', token);
+    } catch (err) {
+      alert(`Error signing in: ${err}`);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="text-black">
       <div>
@@ -75,13 +97,20 @@ export default function SignIn() {
                   Sign In
                 </button>
               </div>
-              <div className="pt-5">
-                <Link to="/signUp" className="text-blue-600">
-                  Don't have an account?
-                </Link>
+              <div className="pt-12">
+                <button className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-1">
+                  <Link to="/signUp">Create an account</Link>
+                </button>
               </div>
             </div>
           </form>
+          <div className="pt-5">
+            <button
+              onClick={guestLogin}
+              className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-1">
+              Sign in with guest account
+            </button>
+          </div>
         </div>
       </div>
     </div>

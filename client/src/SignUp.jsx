@@ -75,9 +75,9 @@ export default function SignUp() {
               </button>
             </div>
             <div className="pt-5">
-              <Link to="/signIn" className="text-blue-600">
-                Already have an account?
-              </Link>
+              <button className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-1">
+                <Link to="/signIn">Already have an account?</Link>
+              </button>
             </div>
           </div>
         </form>
