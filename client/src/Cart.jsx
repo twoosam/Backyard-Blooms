@@ -20,7 +20,6 @@ export default function Cart() {
     async function fetchCartItem() {
       setError(undefined);
       if (!localStorage.getItem('token')) {
-        alert('You must be signed in to view your cart');
         navigate('/signIn');
         return;
       }

@@ -38,3 +38,5 @@ values ('Gnome', '/images/gnome.jpg'),
 ('Candy Stripe', '/images/candyStripe.jpg'),
 ('Jester', '/images/jester.jpg');
 
+insert into "user" ("username", "hashedPassword")
+values ('guest', '$argon2id$v=19$m=4096,t=3,p=1$jbPaRmog3c9s/zQ5mIsqwg$iX5jUOTK9OlCiigR+cGYaFuijN6vCAi/Mv4+6wuui2s');

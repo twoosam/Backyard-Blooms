@@ -1,33 +1,39 @@
-# final-project
+# Backyard Blooms
 
-A full stack JavaScript solo project.
+A full stack ecommerce web application for plant lovers who want to buy plumerias and other plants.
 
-## Getting Started
+## Why I built this
 
----
+For as long as I rcan remember, my backyard has been filled with plumeria. My dad loves growing and taking care of them and I always enjoyed taking pictures of all the different variations of vibrant flowers. We have so many now that my dad gives them away for free so I thought it would be cool to make a mock application for selling plumeria.
 
-### Use this template to create a new repo on your GitHub account
+## Technologies Used
 
-1. Click the green `Use this template` button, select `Create a new repository`
-   1. Under `Owner` select your username
-   1. Give your repository a name
-   1. (Optional) Add a description
-   1. Leave repository as `Public`
-   1. **DO NOT** Include all branches
-   1. Click the green `Create repository from template` button
+- React.js
+- PostgreSQL
+- Node.js
+- Express
+- Tailwind CSS
+- HTML5
+- CSS3
+- AWS
+- Elastic Beanstalk
 
----
+## Live Demo
 
-### Clone Newly created repo into `lfz-code`
+http://final-project-dev22.us-west-1.elasticbeanstalk.com/
 
-1. From your newly created repo on GitHub, click the green `<> Code` button, then copy **SSH** URL
-1. Open `lfz-code`, click on blue `><` button in bottom left of `lfz-code`
-   1. Select `Clone Repository in Container Volume...`
-   1. Paste **SSH** URL for your repo, click `Clone git repository from URL`
+## Features
 
----
+- User can view a catalog of all plants
+- User can view details of a specific plant
+- User can add a product to their cart
+- User can list the products in their cart
+- User can change the quantity of a product in their cart
+- User can remove a product from their cart
+- User can create an account
+- User can sign into their account to see the products they added to cart
 
-### Run and test full-stack project setup
+## Preview
 
 #### Getting Started
 

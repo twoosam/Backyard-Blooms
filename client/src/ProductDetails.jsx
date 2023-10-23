@@ -37,7 +37,6 @@ export default function ProductsDetails() {
 
   async function addToCart(item) {
     if (!localStorage.getItem('token')) {
-      alert('You must be signed in to add to cart');
       navigate('/signIn');
       return;
     }
@@ -107,9 +106,9 @@ export default function ProductsDetails() {
                 Add to cart
               </button>
               <div className="lg:pl-8">
-                <Link to={`/cart`} className="text-blue-600">
-                  View cart
-                </Link>
+                <button className="text-white transition ease-in-out delay-150 bg-blue-600 hover:-translate-y-1 hover:scale-110 px-0.5">
+                  <Link to={`/cart`}>View cart</Link>
+                </button>
               </div>
             </div>
           </div>
