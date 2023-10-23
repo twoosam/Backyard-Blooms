@@ -35,6 +35,8 @@ http://final-project-dev22.us-west-1.elasticbeanstalk.com/
 
 ## Preview
 
+![Alt text](demo_gif1.gif)
+
 #### Getting Started
 
 1. Install all dependencies with `npm install`.
