@@ -66,14 +66,6 @@ If your final project will _not_ be using a database, edit `package.json` to rem
    ```
 1. Later, when you wish to stop the development servers, type `Ctrl-C` in the terminal where the servers are running.
 
-#### Verify the client
-
-1. A React app has already been created for you.
-1. Take a minute to look over the code in `client/src/App.jsx` to get an idea of what it is doing.
-1. Go to the app in your browser. You should see the message from the server below the React logo, and in the browser console.
-   ![](md.assets/client-server.png)
-1. If you see the message from the server in your browser you are good to go, your client and server are communicating.
-
 #### Set up the database
 
 1. In your browser navigate to the site you used for your database design.
@@ -116,40 +108,3 @@ If your final project will _not_ be using a database, edit `package.json` to rem
 1. After any changes to `database/schema.sql` or `database/data.sql` re-run the `npm run db:import` command to update your database. Use `pgweb` to verify your changes were successfully applied
    ![](md.assets/pgweb-with-data.png)
 
-**Happy coding!!!!**
-
----
-
-### Available `npm` commands explained
-
-Below is an explanation of all included `npm` commands in the root `package.json`. Several are only used for deployment purposes and should not be necessary for development.
-
-1. `start`
-   - The `start` script starts the Node server in `production` mode, without any file watchers.
-1. `build`
-   - The `build` script executes `npm run build` in the context of the `client` folder. This builds your React app for production. This is used during deployment, and not commonly needed during development.
-1. `db:import`
-   - The `db:import` script executes `database/import.sh`, which executes the `database/schema.sql` and `database/data.sql` files to build and populate your database.
-1. `dev`
-   - Starts all the development servers.
-1. `lint`
-   - Runs ESLint against all the client and server code.
-1. Not directly used by developer
-   1. `install:*`
-   - These scripts install dependencies in the `client` and `server` folders, and copy `.env.example` to `.env` if it doesn't already exist.
-   1. `dev:*`
-   - These scripts start the individual development servers.
-   1. `lint:*`
-   - These scripts run lint in the client and server directories.
-   1. `postinstall`
-      - The `postinstall` script is automatically run when you run `npm install`. It is executed after the dependencies are installed. Specifically for this project the `postinstall` script is used to install the `client` and `server` dependencies.
-   1. `prepare`
-      - The `prepare` script is similar to `postinstall` — it is executed before `install`. Specifically for this project it is used to install `husky`.
-   1. `deploy`
-      - The `deploy` script is used to deploy the project by pushing the `main` branch to the `pub` branch, which triggers the GitHub Action that deploys the project.
-
----
-
-## Deployment
-
-Once you are ready, deployment instructions can be found [HERE](https://github.com/Learning-Fuze/lfz-portfolios/tree/master/deploy-to-elastic-beanstalk)
