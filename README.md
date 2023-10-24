@@ -51,7 +51,7 @@ If your final project will be using a database, create it now.
    ```
 1. Create database (replace `name-of-database` with a name of your choosing)
    ```sh
-   createdb name-of-database
+   createdb Blooms
    ```
 1. In the `server/.env` file, in the `DATABASE_URL` value, replace `changeMe` with the name of your database, from the last step
 1. While you are editing `server/.env`, also change the value of `TOKEN_SECRET` to a custom value, without spaces.
