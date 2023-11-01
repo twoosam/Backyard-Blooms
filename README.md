@@ -4,7 +4,7 @@ A full stack ecommerce web application for plant lovers who want to buy plumeria
 
 ## Why I built this
 
-For as long as I rcan remember, my backyard has been filled with plumeria. My dad loves growing and taking care of them and I always enjoyed taking pictures of all the different variations of vibrant flowers. We have so many now that my dad gives them away for free so I thought it would be cool to make a mock application for selling plumeria.
+For as long as I can remember, my backyard has been filled with plumeria. My dad loves growing and taking care of them and I always enjoyed taking pictures of all the different variations of vibrant flowers. We have so many now that my dad gives them away for free so I thought it would be cool to make a mock application for selling plumeria.
 
 ## Technologies Used
 
